@@ -1,88 +1,79 @@
 ================================================================================
-FIELD 1: Brief about your Idea (Max 1024 characters)
+FIELD 1: Brief about your Idea (Max 1024 characters including spaces)
 ================================================================================
-An Air-Gapped Predictive NOC Copilot for Secure MPLS/SD-WAN Operations (Problem Statement 13).
+An Air-Gapped Predictive NOC Copilot for Secure MPLS/SD-WAN Operations (PS13).
 
-Our platform shifts network operations from reactive alerting to predictive intelligence — entirely offline. It forecasts SLA breaches 15-30 minutes before they occur using Prophet time-series models, classifies fault types (congestion, BGP instability, tunnel degradation, policy drift) via XGBoost with 94% accuracy, and explains each prediction using SHAP-attributed telemetry signals.
+Our platform shifts network operations from reactive alerting to offline predictive intelligence. It forecasts SLA breaches 15-30 minutes early via Prophet time-series models, classifies fault types (congestion, BGP flaps, tunnel loss, policy drift) via XGBoost with 94% accuracy, and details predictions with SHAP-based explainability.
 
-A locally-hosted Qwen-3 8B LLM (served via Ollama) generates structured JSON remediation checklists grounded in retrieved runbook context from ChromaDB. NetworkX graph traversal maps downstream topology impact for every alert.
+A local Qwen-3 8B LLM (via Ollama) generates structured JSON remediation checklists using ChromaDB runbook RAG. NetworkX graph traversal maps downstream topology impact for alerts.
 
-The entire system — ML inference, LLM reasoning, vector search, and dashboard — runs on a single air-gapped workstation with zero cloud API calls, zero outbound traffic, and zero software licensing costs. A live compliance verification script proves air-gap integrity during operation.
+The entire system runs on a single disconnected workstation with zero cloud API calls, zero data transit, and zero software fees. A CLI script verifies air-gap compliance.
 
-This is not just a monitoring tool. It is a complete autonomous NOC assistant that predicts, explains, correlates, and remediates — fully offline.
-
-================================================================================
-FIELD 2: What problem are you trying to solve? (Max 2000 characters)
-================================================================================
-Modern MPLS/SD-WAN networks serving mission-critical infrastructure face four fundamental challenges:
-
-1. REACTIVE MONITORING: Current NOC tools alert operators only after failures have already caused service degradation. By the time an alert fires at 90% utilization, packet loss and SLA violations are already occurring. Operators need predictive lead time — knowing that a link WILL saturate in 14 minutes gives them time to act before impact.
-
-2. ALERT FATIGUE WITHOUT CONTEXT: A single upstream failure cascades into dozens of downstream alerts. Operators manually correlate hundreds of syslog entries, SNMP traps, and NetFlow records to identify root cause. They need automated topology-aware correlation that collapses cascading alerts into a single incident with identified scope.
-
-3. KNOWLEDGE SILOS: Critical operational knowledge lives in 40-page static runbooks stored on shared drives. During incidents, operators waste precious minutes searching for the right procedure. They need automated retrieval of the exact relevant runbook section, injected directly into the diagnostic context.
-
-4. SECURITY CONSTRAINTS IN CLASSIFIED ENVIRONMENTS: Government, defense, and space organizations like ISRO operate under strict air-gap requirements. They CANNOT use cloud-hosted AI services (ChatGPT, Claude, Copilot) because classified network telemetry must never leave the secure boundary. Yet these organizations need the same AI-powered operational intelligence that commercial enterprises enjoy.
-
-Our solution addresses all four gaps simultaneously:
-- Prophet forecasting estimates exact minutes-to-SLA-breach
-- XGBoost + IsolationForest classify fault type with 94% accuracy and flag anomalies
-- SHAP explainability attributes which specific telemetry signals drove each prediction
-- NetworkX BFS traversal identifies every downstream device and VRF service affected
-- ChromaDB RAG retrieves matching runbook sections automatically
-- A locally-quantized Qwen-3 8B LLM synthesizes all context into a structured remediation checklist with confidence scoring
-
-Everything runs on one machine. Zero cloud. Zero data leakage. Zero recurring cost.
+This is an autonomous NOC assistant that predicts, explains, correlates, and remediates network faults — 100% offline.
 
 ================================================================================
-FIELD 3: Technology Stack being used (Max 1024 characters)
+FIELD 2: What problem are you trying to solve? (Max 2000 characters including spaces)
+================================================================================
+MPLS/SD-WAN networks serving mission-critical infrastructure face four challenges:
+
+1. REACTIVE MONITORING: NOC tools alert only after failures cause service degradation. Operators need predictive lead time — knowing a link will saturate in 15 minutes allows preemptive action.
+2. ALERT FATIGUE: Upstream failures trigger cascading downstream alerts. Operators manually correlate logs to find the root cause. They need topology-aware correlation that groups cascading alerts.
+3. KNOWLEDGE SILOS: Operational playbooks are trapped in static runbooks. During incidents, operators waste time searching files. They need auto-retrieved runbook steps injected into the diagnosis context.
+4. AIR-GAP CONSTRAINTS: Secure space/defense environments cannot use cloud AI (ChatGPT/Claude) due to data sovereignty. They need fully offline intelligence inside a secure boundary.
+
+Our solution resolves these gaps:
+- Prophet forecasts minutes-to-SLA-breach
+- XGBoost & IsolationForest classify faults (94% accuracy) and flag anomalies
+- SHAP explains which telemetry signals drove the warning
+- NetworkX BFS finds downstream devices and VRF services affected
+- ChromaDB RAG retrieves matching runbooks
+- Local Qwen-3 8B LLM structures diagnostics into a JSON remediation checklist
+
+The system runs on one machine with zero cloud transit and zero licensing costs.
+
+================================================================================
+FIELD 3: Technology Stack being used (Max 1024 characters including spaces)
 ================================================================================
 Infrastructure & Simulation:
-- Containerlab + FRRouting (BGP/OSPF/MPLS/VRF network simulation)
-- tc netem (fault injection), iperf3 (traffic generation)
-- FastAPI (Mock SD-WAN Controller REST API)
+- Containerlab & FRRouting (BGP/MPLS/OSPF simulation)
+- tc netem (fault injection) & iperf3 (traffic generator)
+- FastAPI (Mock SD-WAN Controller API)
 
 Telemetry Collection:
-- Telegraf (SNMP MIB polling, syslog ingestion, HTTP scraping)
-- softflowd + nfdump (NetFlow/IPFIX export and analysis)
+- Telegraf (SNMP MIBs, syslog, HTTP scrape)
+- softflowd & nfdump (NetFlow/IPFIX collection)
 
-Predictive ML Engine:
-- XGBoost (multiclass fault classification, 94% accuracy)
-- Prophet (time-series SLA breach forecasting)
-- IsolationForest (unsupervised anomaly detection)
-- SHAP (explainable AI feature attribution)
+Predictive Analytics:
+- XGBoost (fault classifier) & Prophet (SLA time-series forecaster)
+- IsolationForest (anomaly detection) & SHAP (explainable AI)
 
 Offline AI Copilot:
-- Ollama (local LLM server, Qwen-3 8B Q4_K_M quantized)
-- ChromaDB (persistent local vector database for runbook RAG)
-- SentenceTransformers all-MiniLM-L6-v2 (local embeddings)
+- Ollama (Local LLM server, quantized Qwen-3 8B)
+- ChromaDB (Local vector database for RAG)
+- SentenceTransformers (Local embeddings)
 
-Graph Analytics:
-- NetworkX (topology BFS traversal, alert correlation)
-
-Dashboard:
-- Streamlit + Plotly (interactive NOC web console)
+Visualization & Graph:
+- NetworkX (graph topology BFS & alert correlation)
+- Streamlit & Plotly (interactive NOC dashboard)
 
 Languages: Python 3.14
-Cost: $0 licensing (100% open-source)
+Cost: $0 recurring licensing (100% open-source)
 
 ================================================================================
-FIELD 4 - OPTION A: Is this your first hackathon? (Yes version) (Max 1024 characters)
+FIELD 4 - OPTION A: Is this your first hackathon? (Yes version) (Max 1024 characters including spaces)
 ================================================================================
-Yes, this is our first hackathon. While we haven't competed in a hackathon before, our team brings strong foundational experience in AI/ML, computer vision, full-stack development, and systems programming built through academic coursework and personal projects.
+Yes, this is our first hackathon. While we are first-time competitors, our team has strong foundational experience in AI/ML, full-stack development, and networks.
 
-We chose Problem Statement 13 because it sits at the intersection of multiple technical domains we are passionate about — machine learning, network engineering, graph theory, and natural language processing. Building a system that combines all of these into a single cohesive pipeline has been an incredible learning experience.
+Problem Statement 13 was selected because it merges machine learning, graph theory, natural language processing, and network engineering. Building this end-to-end pipeline was a massive learning experience.
 
-Working on this project taught us practical skills in time-series forecasting with Prophet, explainable AI with SHAP, local LLM deployment with Ollama, vector database indexing with ChromaDB, and network simulation with FRRouting and Containerlab. The air-gap constraint pushed us to think creatively about packaging every component for fully offline operation.
-
-We are excited to present our solution and demonstrate that a fully local, zero-cost AI copilot can match or exceed the capabilities of cloud-dependent alternatives.
+We gained hands-on skills in forecasting with Prophet, feature explainability with SHAP, offline RAG indexing with ChromaDB, and local LLM execution with Ollama. The air-gap constraint taught us to package a complete offline AI system. We are excited to present a zero-cost local copilot that matches cloud alternatives.
 
 ================================================================================
-FIELD 4 - OPTION B: Is this your first hackathon? (No version) (Max 1024 characters)
+FIELD 4 - OPTION B: Is this your first hackathon? (No version) (Max 1024 characters including spaces)
 ================================================================================
-No, our team members have participated in previous hackathons and technical competitions. However, this is our first time tackling a problem at the intersection of network engineering, predictive AI, and air-gapped security — which made PS13 uniquely challenging and rewarding.
+No, our team has competed in technical hackathons before. However, this is our first time designing an offline predictive system for secure, air-gapped network environments (PS13).
 
-Our prior experience with AI/ML projects, dashboard development, and system design gave us the foundation to architect a multi-layered solution. The biggest new learning was deploying a fully offline AI stack — local LLM inference via Ollama, offline vector search via ChromaDB, and verifiable air-gap compliance.
+Our background in ML, UI development, and system integration allowed us to build a robust multi-layered architecture. The main learning curve was configuring a fully offline AI stack — running local LLMs (Ollama) and vector search (ChromaDB) with strict compliance controls.
 
-We are confident that our end-to-end approach — from network simulation to predictive analytics to operator-ready dashboards — demonstrates both technical depth and practical applicability for ISRO's operational requirements.
+We believe our pipeline — simulating networks, running predictive classifiers, and generating structured remediation checklists — is a highly practical solution for ISRO's requirements.
 ================================================================================
