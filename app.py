@@ -81,7 +81,7 @@ st.markdown("""
         font-family: 'Courier New', Courier, monospace;
     }
 </style>
-""", unsafe_style_headers=True)
+""", unsafe_allow_html=True)
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -105,7 +105,7 @@ if "active_scenario" not in st.session_state:
 # ─────────────────────────────────────────────────────────────────────────────
 # 3. Sidebar — Controls & Fault Injector
 # ─────────────────────────────────────────────────────────────────────────────
-st.sidebar.image("https://img.icons8.com/color/96/satellite.png", width=80)
+st.sidebar.markdown("## 📡 NOC Copilot")
 st.sidebar.title("NOC Controls")
 st.sidebar.markdown("---")
 
@@ -236,7 +236,7 @@ with col_head1:
 
 with col_head2:
     if st.button("🔄 Trigger Polling Cycle"):
-        st.experimental_rerun()
+        st.rerun()
 
 with col_head3:
     # Live execution of airgap_verify.py
