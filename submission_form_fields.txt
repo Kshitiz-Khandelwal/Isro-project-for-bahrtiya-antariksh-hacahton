@@ -14,22 +14,25 @@ This is an autonomous NOC assistant that predicts, explains, correlates, and rem
 ================================================================================
 FIELD 2: What problem are you trying to solve? (Max 2000 characters including spaces)
 ================================================================================
-MPLS/SD-WAN networks serving mission-critical infrastructure face four challenges:
+Modern MPLS/SD-WAN networks serving mission-critical infrastructure face four fundamental challenges:
 
-1. REACTIVE MONITORING: NOC tools alert only after failures cause service degradation. Operators need predictive lead time — knowing a link will saturate in 15 minutes allows preemptive action.
-2. ALERT FATIGUE: Upstream failures trigger cascading downstream alerts. Operators manually correlate logs to find the root cause. They need topology-aware correlation that groups cascading alerts.
-3. KNOWLEDGE SILOS: Operational playbooks are trapped in static runbooks. During incidents, operators waste time searching files. They need auto-retrieved runbook steps injected into the diagnosis context.
-4. AIR-GAP CONSTRAINTS: Secure space/defense environments cannot use cloud AI (ChatGPT/Claude) due to data sovereignty. They need fully offline intelligence inside a secure boundary.
+1. REACTIVE MONITORING: Current NOC NOC tools alert operators only after failures have already caused service degradation. By the time an alert fires at 90% utilization, packet loss and SLA violations are already occurring. Operators need predictive lead time — knowing that a link WILL saturate in 14 minutes gives them time to act before impact.
 
-Our solution resolves these gaps:
-- Prophet forecasts minutes-to-SLA-breach
-- XGBoost & IsolationForest classify faults (94% accuracy) and flag anomalies
-- SHAP explains which telemetry signals drove the warning
-- NetworkX BFS finds downstream devices and VRF services affected
-- ChromaDB RAG retrieves matching runbooks
-- Local Qwen-3 8B LLM structures diagnostics into a JSON remediation checklist
+2. ALERT FATIGUE WITHOUT CONTEXT: A single upstream failure cascades into dozens of downstream alerts. Operators manually correlate hundreds of syslog entries, SNMP traps, and NetFlow records to identify root cause. They need automated topology-aware correlation that collapses cascading alerts into a single incident with identified scope.
 
-The system runs on one machine with zero cloud transit and zero licensing costs.
+3. KNOWLEDGE SILOS: Critical operational knowledge lives in 40-page static runbooks stored on shared drives. During incidents, operators waste precious minutes searching for the right procedure. They need automated retrieval of the exact relevant runbook section, injected directly into the diagnostic context.
+
+4. SECURITY CONSTRAINTS IN CLASSIFIED ENVIRONMENTS: Government, defense, and space organizations like ISRO operate under strict air-gap requirements. They CANNOT use cloud-hosted AI services (ChatGPT, Claude, Copilot) because classified network telemetry must never leave the secure boundary. Yet these organizations need the same AI-powered operational intelligence that commercial enterprises enjoy.
+
+Our solution addresses all four gaps simultaneously:
+- Prophet forecasting estimates exact minutes-to-SLA-breach
+- XGBoost + IsolationForest classify fault type with 94% accuracy and flag anomalies
+- SHAP explainability attributes which specific telemetry signals drove each prediction
+- NetworkX BFS traversal identifies every downstream device and VRF service affected
+- ChromaDB RAG retrieves matching runbook sections automatically
+- A locally-quantized Qwen-3 8B LLM synthesizes all context into a structured remediation checklist with confidence scoring
+
+Everything runs on one machine. Zero cloud. Zero data leakage. Zero recurring cost.
 
 ================================================================================
 FIELD 3: Technology Stack being used (Max 1024 characters including spaces)
