@@ -1,0 +1,36 @@
+# PS13 — Air-Gapped Predictive Copilot for Secure MPLS Operations
+# Python dependencies
+
+# ── ML & Data ─────────────────────────────────────────────
+pandas>=2.0
+numpy>=1.24
+scikit-learn>=1.3
+xgboost>=2.0
+lightgbm>=4.0
+prophet>=1.1
+shap>=0.43
+
+# ── LLM & RAG ────────────────────────────────────────────
+chromadb>=0.4
+llama-index>=0.10
+sentence-transformers>=2.3
+requests>=2.31
+jsonschema>=4.20
+
+# ── Telemetry & Networking ───────────────────────────────
+pysnmp>=4.4
+networkx>=3.0
+pyyaml>=6.0
+
+# ── Dashboard ────────────────────────────────────────────
+streamlit>=1.30
+plotly>=5.18
+altair>=5.0
+
+# ── Mock SD-WAN Controller ──────────────────────────────
+fastapi>=0.104
+uvicorn>=0.24
+pydantic>=2.5
+
+# ── Data I/O ─────────────────────────────────────────────
+pyarrow>=14.0

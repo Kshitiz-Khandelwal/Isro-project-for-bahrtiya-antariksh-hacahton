@@ -1,0 +1,629 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);color:var(--text-primary);font-size:14px;line-height:1.6}
+.nav{display:flex;flex-wrap:wrap;gap:6px;padding:1rem 0 0.75rem;border-bottom:0.5px solid var(--border);margin-bottom:1rem}
+.tab{padding:5px 12px;border-radius:var(--radius);cursor:pointer;font-size:12px;font-weight:500;border:0.5px solid var(--border);color:var(--text-secondary);background:var(--surface-1);transition:all .15s}
+.tab.active{background:var(--bg-accent);color:var(--text-accent);border-color:var(--border-accent)}
+.tab:hover:not(.active){background:var(--surface-2)}
+.section{display:none}.section.active{display:block}
+h2{font-size:16px;font-weight:500;margin-bottom:0.75rem;color:var(--text-primary)}
+h3{font-size:13px;font-weight:500;margin:1rem 0 0.4rem;color:var(--text-primary)}
+p{font-size:13px;color:var(--text-secondary);margin-bottom:0.5rem}
+.card{background:var(--surface-1);border:0.5px solid var(--border);border-radius:12px;padding:1rem 1.25rem;margin-bottom:0.75rem}
+.card-header{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:0.5rem}
+.card-title{font-size:13px;font-weight:500;color:var(--text-primary)}
+.badge{font-size:11px;font-weight:500;padding:2px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0}
+.critical{background:#FCEBEB;color:#A32D2D}
+.high{background:#FAEEDA;color:#854F0B}
+.medium{background:#E1F5EE;color:#0F6E56}
+.low{background:#E6F1FB;color:#185FA5}
+.good{background:#EAF3DE;color:#3B6D11}
+.obs{font-size:12px;color:var(--text-muted);margin-bottom:0.3rem;font-style:italic}
+.rec{font-size:12px;background:var(--bg-accent);color:var(--text-accent);border-radius:6px;padding:6px 10px;margin-top:0.5rem}
+.meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:0.5rem}
+.meta-pill{font-size:11px;padding:2px 8px;border-radius:20px;border:0.5px solid var(--border);color:var(--text-muted)}
+.score-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:1rem}
+.score-card{background:var(--surface-1);border:0.5px solid var(--border);border-radius:var(--radius);padding:0.6rem 0.75rem;text-align:center}
+.score-num{font-size:22px;font-weight:500;color:var(--text-accent)}
+.score-label{font-size:11px;color:var(--text-muted);margin-top:2px}
+.summary-row{display:flex;gap:8px;align-items:flex-start;padding:0.4rem 0;border-bottom:0.5px solid var(--border)}
+.summary-row:last-child{border-bottom:none}
+.sym{font-size:14px;margin-top:1px;flex-shrink:0}
+.summary-row p{margin:0;font-size:12px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:520px){.two-col{grid-template-columns:1fr}}
+.tag-row{display:flex;flex-wrap:wrap;gap:4px;margin-top:0.4rem}
+.tag{font-size:11px;padding:2px 8px;border-radius:20px;background:var(--surface-0);border:0.5px solid var(--border);color:var(--text-muted)}
+ul{padding-left:1.1rem;font-size:12px;color:var(--text-secondary);line-height:1.8}
+code{font-family:var(--font-mono);font-size:11px;background:var(--surface-0);padding:1px 5px;border-radius:4px;color:var(--text-primary)}
+.section-label{font-size:10px;font-weight:500;letter-spacing:.05em;color:var(--text-muted);text-transform:uppercase;margin-bottom:0.25rem}
+.divider{height:0.5px;background:var(--border);margin:0.75rem 0}
+.effort-bar{height:4px;border-radius:2px;background:var(--border);margin-top:0.4rem;overflow:hidden}
+.effort-fill{height:100%;border-radius:2px}
+.e-low{background:#1D9E75;width:25%}.e-med{background:#BA7517;width:55%}.e-high{background:#A32D2D;width:90%}
+.highlight-box{border:0.5px solid var(--border-accent);background:var(--bg-accent);border-radius:8px;padding:0.6rem 0.9rem;margin-bottom:0.75rem}
+.highlight-box p{color:var(--text-accent);font-size:12px;margin:0}
+</style>
+
+<h2 style="padding-top:0.5rem">PS13 Roadmap Review — Air-Gapped Predictive NOC Copilot</h2>
+<p style="font-size:12px;color:var(--text-muted);margin-bottom:0.5rem">Senior architect + hackathon mentor review · Based on PS13, evaluation image, and your full roadmap</p>
+
+<div class="nav" id="nav">
+  <div class="tab active" onclick="show('p1',this)">Phase 1: Problem</div>
+  <div class="tab" onclick="show('p2',this)">Phase 2: Section Review</div>
+  <div class="tab" onclick="show('p3',this)">Phase 3: Product</div>
+  <div class="tab" onclick="show('p4',this)">Phase 4: Architecture</div>
+  <div class="tab" onclick="show('p5',this)">Phase 5: AI/ML</div>
+  <div class="tab" onclick="show('p6',this)">Phase 6: Innovation</div>
+  <div class="tab" onclick="show('p7',this)">Phase 7: Feasibility</div>
+  <div class="tab" onclick="show('p8',this)">Phase 8: Judges</div>
+  <div class="tab" onclick="show('p9',this)">Phase 9: Risks</div>
+  <div class="tab" onclick="show('p10',this)">Phase 10: Opportunities</div>
+</div>
+
+<!-- PHASE 1 -->
+<div class="section active" id="p1">
+  <h2>Phase 1 — Problem Statement Understanding</h2>
+  <div class="highlight-box"><p><i class="ti ti-info-circle" aria-hidden="true"></i> Your roadmap's plain-English summary of the problem is excellent — it's one of the strongest sections. The Q1/Q2/Q3 framing and the evaluation weight table are accurate and helpful for a hackathon team.</p></div>
+
+  <h3>Core problem (your understanding vs. PS)</h3>
+  <div class="card">
+    <p style="font-size:12px">Your summary accurately captures all 4 objectives. One nuance you slightly gloss over: the problem distinguishes between the <em>underlay</em> (MPLS forwarding plane with CE/PE/P hierarchy) and the <em>overlay</em> (SD-WAN IPSec tunnels). These are two distinct failure domains, and the predictive engine must address both independently. Your roadmap treats them somewhat interchangeably in the feature engineering section.</p>
+  </div>
+
+  <h3>Objectives coverage check</h3>
+  <div class="card">
+    <div class="summary-row"><span class="sym" style="color:#1D9E75">✓</span><p><strong>Obj 1 — Simulated topology:</strong> Well covered. Containerlab + FRR is a pragmatic and correct choice.</p></div>
+    <div class="summary-row"><span class="sym" style="color:#1D9E75">✓</span><p><strong>Obj 2 — Predictive engine:</strong> Well covered. Prophet + XGBoost + IsolationForest ensemble is sound.</p></div>
+    <div class="summary-row"><span class="sym" style="color:#BA7517">~</span><p><strong>Obj 3 — Offline LLM:</strong> Mostly covered, but structured output format, prompt engineering, and SHAP → context injection are undesigned.</p></div>
+    <div class="summary-row"><span class="sym" style="color:#A32D2D">✗</span><p><strong>Obj 4 — NOC Workflow Automation:</strong> The graph-based event correlation mentioned explicitly in Obj 4 ("dynamic graph-based event correlation") is entirely absent from your architecture. This is a miss.</p></div>
+  </div>
+
+  <h3>Constraints (from PS) — do you address them?</h3>
+  <div class="card">
+    <div class="summary-row"><span class="sym" style="color:#1D9E75">✓</span><p>Zero cloud dependency — addressed via Ollama + local ChromaDB</p></div>
+    <div class="summary-row"><span class="sym" style="color:#A32D2D">✗</span><p>Air-gap proof during demo — no mechanism defined to demonstrate or verify this to judges</p></div>
+    <div class="summary-row"><span class="sym" style="color:#BA7517">~</span><p>All data within air-gapped boundary — stated, but Ollama's install script <code>curl ... ollama.com</code> requires internet; pre-bundling not addressed</p></div>
+    <div class="summary-row"><span class="sym" style="color:#A32D2D">✗</span><p>NetFlow/IPFIX collection — explicitly listed as required dataset in PS, absent from your telemetry stack</p></div>
+    <div class="summary-row"><span class="sym" style="color:#A32D2D">✗</span><p>SD-WAN controller streaming telemetry — listed in required datasets, no controller simulation planned</p></div>
+  </div>
+
+  <h3>Unresolved assumptions (your roadmap doesn't address these)</h3>
+  <div class="card">
+    <ul>
+      <li>What hardware will the demo run on? Running Containerlab + Prometheus + Ollama 8B + Streamlit simultaneously needs significant RAM (16 GB+ recommended)</li>
+      <li>Is the team developing on Windows (your file paths suggest Windows)? Containerlab is Linux-native — WSL2 may add friction</li>
+      <li>How much time will you realistically have for fault injection data collection before ML training begins?</li>
+      <li>Has the team configured FRR with working MPLS/LDP before? It's non-trivial for first-timers</li>
+    </ul>
+  </div>
+</div>
+
+<!-- PHASE 2 -->
+<div class="section" id="p2">
+  <h2>Phase 2 — Section-by-Section Evaluation</h2>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">Component 1: Network Simulation</span><span class="badge high">High priority gap</span></div>
+    <div class="obs">Containerlab + FRR recommendation is correct and pragmatic. Fault injection table is thorough.</div>
+    <div class="two-col">
+      <div>
+        <div class="section-label">What's good</div>
+        <ul><li>Containerlab YAML-as-code is the right hackathon choice</li><li>FRR eliminates licensing complexity</li><li>tc netem for gradual degradation is exactly right</li><li>Tool comparison tables are useful for team decisions</li></ul>
+      </div>
+      <div>
+        <div class="section-label">What's missing / wrong</div>
+        <ul><li><strong>No SD-WAN controller</strong> — PS requires "Streaming telemetry from SD-WAN controllers." You have no controller in your topology</li><li><strong>MPLS-TE/RSVP</strong> — mentioned in PS objectives, absent here</li><li><strong>VRF config</strong> — MPLS VPN segmentation needs explicit VRF design</li><li><strong>Timeline is optimistic</strong> — 4 hrs for MPLS + BGP + OSPF for a first-timer is tight; realistic is 6-8 hrs</li></ul>
+      </div>
+    </div>
+    <div class="rec"><i class="ti ti-bulb" aria-hidden="true"></i> Add a mock SD-WAN controller: a simple Python script that exposes a REST API returning tunnel stats JSON. Telegraf can scrape it. This fulfills the "streaming telemetry from SD-WAN controllers" requirement without needing a real controller product.</div>
+    <div class="meta"><span class="meta-pill">Completeness: 7/10</span><span class="meta-pill">Technical strength: 8/10</span><span class="meta-pill">Feasibility: 7/10</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">Component 2: Telemetry Pipeline</span><span class="badge critical">Critical gap</span></div>
+    <div class="obs">Telegraf → Prometheus → CSV is sensible. But two required data sources are entirely missing.</div>
+    <div class="two-col">
+      <div>
+        <div class="section-label">What's good</div>
+        <ul><li>Hackathon shortcut (Telegraf → CSV) is pragmatic and correct</li><li>Prometheus PromQL for dashboard integration is clean</li><li>Export to Parquet for ML is efficient</li></ul>
+      </div>
+      <div>
+        <div class="section-label">Critical gaps</div>
+        <ul><li><strong>NetFlow/IPFIX absent</strong> — PS explicitly lists this as required data. Use softflowd on FRR nodes + nfdump to collect flow records</li><li><strong>Syslog pipeline undefined</strong> — how does syslog from FRR get into your ML features? Telegraf syslog plugin config not shown</li><li><strong>BGP-MIB polling</strong> — feature table references BGP-MIB but Telegraf config for this isn't addressed</li></ul>
+      </div>
+    </div>
+    <div class="rec"><i class="ti ti-bulb" aria-hidden="true"></i> Add softflowd to each FRR container (1 line in the Containerlab config) and a nfdump collector. This gets you NetFlow in ~30 minutes and directly satisfies a PS requirement that judges will check.</div>
+    <div class="meta"><span class="meta-pill">Completeness: 6/10</span><span class="meta-pill">Technical strength: 7/10</span><span class="meta-pill">Feasibility: 8/10</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">Component 3: Predictive ML Models</span><span class="badge good">Strongest section</span></div>
+    <div class="obs">The hybrid ensemble strategy and feature engineering tables are the best-written part of the roadmap.</div>
+    <div class="two-col">
+      <div>
+        <div class="section-label">What's good</div>
+        <ul><li>Prophet + XGBoost + IsolationForest covers forecasting, classification, and unsupervised detection</li><li>SHAP for explainability directly feeds Q2</li><li>Temporal features (rate-of-change, moving averages) show lead-time awareness</li><li>Feature engineering tables are detailed and technically sound</li></ul>
+      </div>
+      <div>
+        <div class="section-label">Gaps and risks</div>
+        <ul><li><strong>Training data volume</strong> — 2 hours of fault injection at 30s intervals = ~240 data points. XGBoost can work, but the model will be fragile. You need 3-4 hours minimum of data collection across multiple fault runs</li><li><strong>Time-to-impact via Prophet</strong> — mechanism unclear. Prophet forecasts future values; you need a threshold-crossing detection layer on top</li><li><strong>Ensemble voting logic</strong> — "weighted vote or stacked meta-classifier" mentioned but not designed. What weights? Fallback?</li><li><strong>Cross-validation</strong> — absent. On small datasets, k-fold CV prevents overfitting</li></ul>
+      </div>
+    </div>
+    <div class="rec"><i class="ti ti-bulb" aria-hidden="true"></i> For time-to-impact: use Prophet's <code>make_future_dataframe(periods=60, freq='30S')</code> and find the first timestep where the forecast crosses your SLA threshold. That's your "X minutes to breach." Implement this as a function and document it — judges will ask.</div>
+    <div class="meta"><span class="meta-pill">Completeness: 8/10</span><span class="meta-pill">Technical strength: 8/10</span><span class="meta-pill">Innovation: 7/10</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">Component 4: Offline LLM Copilot</span><span class="badge critical">35% of score — critical gaps</span></div>
+    <div class="obs">Model and runtime selection are good. But the HOW of making it produce reliable, structured, non-hallucinating responses is undesigned.</div>
+    <div class="two-col">
+      <div>
+        <div class="section-label">What's good</div>
+        <ul><li>Qwen3 8B is a strong choice — good reasoning, Apache 2.0</li><li>Ollama for serving is the correct hackathon choice</li><li>Hardware-tiered model recommendations are practical</li></ul>
+      </div>
+      <div>
+        <div class="section-label">Critical gaps</div>
+        <ul><li><strong>No prompt engineering strategy</strong> — what system prompt will you use? This directly determines copilot quality (35% score)</li><li><strong>No structured output format</strong> — PS requires "predicted issue, confidence score, root cause, affected scope, recommended actions." Without JSON mode or output schema enforcement, LLM output will be inconsistent</li><li><strong>SHAP → LLM injection</strong> — the mechanism for passing SHAP values into LLM context is not designed</li><li><strong>Air-gap bundling</strong> — Ollama's install requires internet. Pre-download plan for air-gap demo not addressed</li><li><strong>Hallucination mitigation</strong> — "use RAG" is stated but no concrete guard-rails</li></ul>
+      </div>
+    </div>
+    <div class="rec"><i class="ti ti-bulb" aria-hidden="true"></i> Design a structured prompt template now. The system prompt must instruct the LLM to always respond in a fixed JSON schema: <code>{"issue_type", "confidence_pct", "root_cause", "affected_scope", "time_to_impact_min", "recommended_actions": []}</code>. Use Ollama's <code>format: "json"</code> parameter. Parse and validate every response before displaying it.</div>
+    <div class="meta"><span class="meta-pill">Completeness: 5/10</span><span class="meta-pill">Technical strength: 6/10</span><span class="meta-pill">Risk: High</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">Component 5: RAG Pipeline</span><span class="badge medium">Solid, minor gaps</span></div>
+    <div class="obs">ChromaDB + LlamaIndex + all-MiniLM-L6-v2 is a proven, hackathon-appropriate RAG stack.</div>
+    <div class="two-col">
+      <div>
+        <div class="section-label">What's good</div>
+        <ul><li>ChromaDB for simplicity is correct</li><li>Document taxonomy (topology, runbooks, incidents, configs, SLAs) is comprehensive</li><li>Sentence-transformers for local embeddings is the right air-gap choice</li></ul>
+      </div>
+      <div>
+        <div class="section-label">Gaps</div>
+        <ul><li>No mention of live telemetry injection into RAG context — the LLM needs real-time alert data, not just static docs</li><li>Retrieval strategy not designed (top-k? hybrid search? metadata filters?)</li><li>Who writes the runbooks? These need to be pre-authored for all 4 validation scenarios</li></ul>
+      </div>
+    </div>
+    <div class="meta"><span class="meta-pill">Completeness: 7/10</span><span class="meta-pill">Feasibility: 9/10</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">30-Hour Timeline</span><span class="badge high">Optimistic — needs buffer</span></div>
+    <div class="obs">The timeline is detailed and realistic in structure, but several phases are likely to overrun.</div>
+    <ul>
+      <li><strong>Phase 1 (0-4 hrs):</strong> MPLS + BGP + OSPF working in FRR containers is likely 6-8 hrs for non-networking-experts. Risk: highest</li>
+      <li><strong>Phase 3 (8-10 hrs):</strong> 2 hours of fault injection is insufficient data for reliable ML. Recommend 4 hours minimum</li>
+      <li><strong>Phase 5 (16-22 hrs):</strong> RAG wiring + LLM prompt tuning + structured output enforcement is easily 8+ hours</li>
+      <li><strong>No buffer time:</strong> Zero contingency in a 30-hour hackathon is a serious risk</li>
+    </ul>
+    <div class="rec"><i class="ti ti-bulb" aria-hidden="true"></i> Restructure: pre-download all models and containers the night before. Prepare FRR configs offline. This effectively gives you a 2-3 hour head start on Phase 1.</div>
+    <div class="meta"><span class="meta-pill">Completeness: 8/10</span><span class="meta-pill">Practicality: 6/10</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">Existing Codebase Reuse</span><span class="badge good">Smart thinking</span></div>
+    <div class="obs">Identifying reusable code is excellent hackathon strategy. A few concerns.</div>
+    <ul>
+      <li>Windows paths (<code>C:\Users\Admin\Desktop\Kshitiz\</code>) in the roadmap suggest a Windows dev environment. Containerlab runs best on Linux/WSL2 — ensure your team has a Linux machine or WSL2 configured</li>
+      <li>SplitFed as an "innovation" is clever but high-risk — do not start it before the core system is working end-to-end</li>
+      <li>TON-IoT feature pipeline reuse is valid, but document the adaptation clearly — judges familiar with networking will scrutinize if features are genuinely network-domain</li>
+    </ul>
+    <div class="meta"><span class="meta-pill">Innovation: 8/10</span><span class="meta-pill">Risk: Medium</span></div>
+  </div>
+</div>
+
+<!-- PHASE 3 -->
+<div class="section" id="p3">
+  <h2>Phase 3 — Product Thinking</h2>
+  <div class="highlight-box"><p>Your roadmap is almost entirely technical. Product thinking is nearly absent — but for a hackathon judged by ISRO engineers, this is acceptable as long as you cover it briefly in documentation.</p></div>
+
+  <div class="two-col">
+    <div class="card">
+      <div class="card-title" style="margin-bottom:0.5rem">Present</div>
+      <ul>
+        <li>Problem clearly stated</li>
+        <li>Three operational questions (Q1/Q2/Q3) work as user value propositions</li>
+        <li>Validation scenarios are operator-centric</li>
+        <li>Alert prioritization reduces alert fatigue</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title" style="margin-bottom:0.5rem">Missing</div>
+      <ul>
+        <li>No user persona definition (Tier-1 vs Tier-3 NOC operator)</li>
+        <li>No user journey (how does an operator currently detect the same fault?)</li>
+        <li>No USP statement for documentation</li>
+        <li>No adoption story (how would an org deploy this?)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">Recommended USP statement (for documentation)</span><span class="badge low">Low effort, high impact</span></div>
+    <p style="font-size:12px">Write this into your documentation: <em>"The only air-gapped, explainable predictive NOC assistant that tells operators not just what failed, but what will fail next — with a confidence score, estimated time-to-impact, and specific remediation steps — with zero internet dependency."</em></p>
+    <p style="font-size:12px">This directly maps your system to all three evaluation dimensions (technical merit, copilot quality, air-gap compliance) in one sentence.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">User personas to add to documentation</span><span class="badge low">Low effort</span></div>
+    <div class="two-col">
+      <div>
+        <div class="section-label">Tier-1 NOC operator</div>
+        <ul><li>Monitors 200+ alerts/day</li><li>Limited networking expertise</li><li>Needs: plain-language guidance, "what do I do" answers</li><li>Your copilot chat interface serves this user</li></ul>
+      </div>
+      <div>
+        <div class="section-label">Tier-3 network engineer</div>
+        <ul><li>Deep networking knowledge</li><li>Needs: root cause, signal attribution, topology context</li><li>Your SHAP explanations + topology view serves this user</li></ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PHASE 4 -->
+<div class="section" id="p4">
+  <h2>Phase 4 — Technical Architecture Review</h2>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">Overall architecture</span><span class="badge medium">Solid foundation, missing layers</span></div>
+    <p style="font-size:12px">The 4-layer stack diagram (Presentation → Intelligence → Data → Infrastructure) is clean and correct. The data flow is logical. Key missing components:</p>
+    <ul style="margin-top:0.4rem">
+      <li><strong>No event correlation layer</strong> — Obj 4 requires "dynamic graph-based event correlation." Your architecture has no graph engine between the predictive models and the alert feed. NetworkX is imported but never positioned in the architecture</li>
+      <li><strong>No alert deduplication</strong> — if 3 interfaces on the same PE router are congesting simultaneously, you'll generate 3 alerts instead of 1 correlated event</li>
+      <li><strong>No mock SD-WAN controller</strong> — missing from infrastructure layer</li>
+      <li><strong>No NetFlow collector</strong> — missing from data layer</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">Missing: graph-based event correlation</span><span class="badge critical">Explicitly required in Obj 4</span></div>
+    <div class="obs">This is not optional — it's stated in the problem statement objectives.</div>
+    <p style="font-size:12px">What's needed: build a NetworkX graph of your topology (nodes = devices, edges = links). When alerts fire, look up the graph to find: which other devices share the affected path? Which VPNs traverse the degraded link? This answers "affected scope" in the copilot response and reduces alert noise.</p>
+    <div class="rec"><i class="ti ti-bulb" aria-hidden="true"></i> Implementation: pre-build the topology graph from your Containerlab YAML (it's already structured data). When an alert fires on interface eth1 of PE-1, traverse the graph to find all downstream branch sites whose traffic uses that link. Pass this as context to the LLM. This is ~50 lines of Python and delivers high judge impact.</div>
+    <div class="meta"><span class="meta-pill">Effort: Medium (3-4 hrs)</span><span class="meta-pill">Impact: High</span><span class="meta-pill">Priority: Critical</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">Air-gap compliance — no verification mechanism</span><span class="badge critical">20% of score</span></div>
+    <div class="obs">You state the system is air-gapped, but how do you prove it during the demo?</div>
+    <p style="font-size:12px">Judges cannot take your word for it. You need a verifiable demonstration. Recommended approach:</p>
+    <ul>
+      <li>Run your entire stack on a machine with no network cable / WiFi disabled</li>
+      <li>Write a simple Python script that attempts to reach google.com and 8.8.8.8 — show it failing</li>
+      <li>Use <code>netstat -an</code> or <code>ss -tnp</code> output showing zero external connections during copilot operation</li>
+      <li>In documentation, list all model weights, embedding model files, and library packages bundled locally with their checksums</li>
+    </ul>
+    <div class="meta"><span class="meta-pill">Effort: Low (1-2 hrs)</span><span class="meta-pill">Impact: Critical (20% score)</span><span class="meta-pill">Priority: Critical</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">Single points of failure</span><span class="badge high">Demo risk</span></div>
+    <ul>
+      <li><strong>Ollama model loading:</strong> first cold start of an 8B model takes 30-60 seconds. Pre-warm before demo</li>
+      <li><strong>ChromaDB persistence:</strong> if you use in-memory ChromaDB, the RAG knowledge base resets on restart. Use disk-persistent client</li>
+      <li><strong>Containerlab topology:</strong> if any container crashes mid-demo, the network sim breaks. Prepare a quick <code>clab deploy --reconfigure</code> recovery</li>
+      <li><strong>Streamlit connection:</strong> if Prometheus is down, your dashboard breaks. Add graceful fallback to CSV data</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">Resource constraint analysis</span><span class="badge high">Validate before hackathon day</span></div>
+    <p style="font-size:12px">Running all components simultaneously (approximate RAM requirements):</p>
+    <div class="tag-row">
+      <span class="tag">Containerlab + 5 FRR nodes: ~2-3 GB</span>
+      <span class="tag">Prometheus: ~500 MB</span>
+      <span class="tag">Ollama + Qwen3 8B Q4: ~6-7 GB</span>
+      <span class="tag">ChromaDB: ~300 MB</span>
+      <span class="tag">Streamlit: ~200 MB</span>
+      <span class="tag">OS overhead: ~2 GB</span>
+    </div>
+    <p style="font-size:12px;margin-top:0.5rem">Total: ~12-14 GB RAM minimum. On 16 GB machines this is feasible but tight. Validate this before hackathon day.</p>
+  </div>
+</div>
+
+<!-- PHASE 5 -->
+<div class="section" id="p5">
+  <h2>Phase 5 — AI/ML Review</h2>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">Dataset strategy</span><span class="badge high">Training data volume is a risk</span></div>
+    <div class="obs">2 hours of fault injection = ~240 data points at 30s polling. This is marginal for XGBoost classification.</div>
+    <p style="font-size:12px">Recommendation: run fault injection scenarios in parallel across multiple interfaces simultaneously (not sequentially). This multiplies your labeled dataset size without extending the time window. Use data augmentation: add small Gaussian noise to feature values across 5 augmentation copies. For Prophet, synthetic data isn't needed — it's a univariate forecaster that extrapolates your trend.</p>
+    <div class="meta"><span class="meta-pill">Risk: High</span><span class="meta-pill">Effort to fix: Low (1 hr)</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">Model choice assessment</span><span class="badge good">Ensemble strategy is sound</span></div>
+    <div class="two-col">
+      <div>
+        <div class="section-label">Prophet</div>
+        <ul><li>Good fit for congestion forecasting (Obj 2, signal 1)</li><li>Limitation: univariate — one metric at a time</li><li>Correct use: per-interface utilization forecast</li><li>Threshold-crossing → time-to-impact needs explicit implementation</li></ul>
+      </div>
+      <div>
+        <div class="section-label">XGBoost</div>
+        <ul><li>Best fit for multivariate fault classification</li><li>SHAP integration is excellent for explainability</li><li>Risk: small dataset → overfitting. Use max_depth=3, min_child_weight=5</li><li>Consider LightGBM if training time is a concern</li></ul>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="two-col">
+      <div>
+        <div class="section-label">Isolation Forest</div>
+        <ul><li>Correct use for unsupervised anomaly catch-all</li><li>Does NOT provide time-to-impact — clarify this in docs</li><li>Set contamination=0.1 as starting point</li></ul>
+      </div>
+      <div>
+        <div class="section-label">Missing: routing instability model</div>
+        <ul><li>BGP flap detection needs a separate model — a simple sliding window counter on BGP state change events works well</li><li>Define threshold: N state changes in M minutes = instability warning</li></ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">Time-to-impact estimation — implementation gap</span><span class="badge critical">Core Q1 deliverable</span></div>
+    <div class="obs">Q1 is "What will fail next — and WHEN?" The "when" is unimplemented.</div>
+    <p style="font-size:12px">Concrete implementation for congestion (highest lead time value):</p>
+    <div style="background:var(--surface-0);border-radius:6px;padding:0.6rem;font-family:var(--font-mono);font-size:11px;color:var(--text-secondary);margin-top:0.4rem;line-height:1.8">
+      future = model.make_future_dataframe(periods=120, freq='30S')<br>
+      forecast = model.predict(future)<br>
+      breach_rows = forecast[forecast['yhat'] >= 85]  # 85% = SLA threshold<br>
+      if not breach_rows.empty:<br>
+      &nbsp;&nbsp;breach_time = breach_rows.iloc[0]['ds']<br>
+      &nbsp;&nbsp;minutes_to_breach = (breach_time - now).seconds / 60
+    </div>
+    <div class="meta"><span class="meta-pill">Effort: Low (30 mins)</span><span class="meta-pill">Impact: Critical</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">Explainability pipeline (SHAP → LLM context)</span><span class="badge critical">Not designed — 35% score risk</span></div>
+    <div class="obs">SHAP gives you top contributing features. How do they get into the LLM context?</div>
+    <p style="font-size:12px">Proposed pipeline:</p>
+    <ul>
+      <li>After XGBoost predicts "Critical," call <code>shap.TreeExplainer</code> on that prediction</li>
+      <li>Extract top 3 feature-value pairs by absolute SHAP value</li>
+      <li>Format as: <em>"Top signals: utilization_rate_of_change=+0.42 (↑ congestion building), if_in_discards_rate=+0.31 (↑ packet drops), tunnel_jitter_ms=+0.18 (↑ jitter)"</em></li>
+      <li>Inject this string directly into the LLM prompt before the question</li>
+    </ul>
+    <p style="font-size:12px;margin-top:0.4rem">This directly answers Q2 ("why is risk elevated") with grounded, model-derived evidence — exactly what judges want to see.</p>
+    <div class="meta"><span class="meta-pill">Effort: Medium (2-3 hrs)</span><span class="meta-pill">Impact: Critical</span></div>
+  </div>
+</div>
+
+<!-- PHASE 6 -->
+<div class="section" id="p6">
+  <h2>Phase 6 — Innovation Review</h2>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">Genuinely innovative elements</span><span class="badge good">Stand-out potential</span></div>
+    <ul>
+      <li><strong>SplitFed for branch-level training:</strong> If executable, this is a genuinely novel approach to air-gapped federated telemetry that nobody else is likely to demo. Each branch trains locally, sends only quantized activations to the hub — raw telemetry never leaves the site. This is directly aligned with the air-gap requirement and shows deep thinking.</li>
+      <li><strong>SHAP → LLM context injection:</strong> Using interpretable ML output as structured grounding for LLM responses (rather than raw data) is an elegant approach that improves both explainability and hallucination resistance simultaneously.</li>
+      <li><strong>Topology-aware alert correlation via NetworkX:</strong> Graph traversal for affected-scope determination is the right engineering approach, not just pattern-matching on device names.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">What's common (everyone will do this)</span><span class="badge medium">Differentiator needed</span></div>
+    <ul>
+      <li>Ollama + quantized LLM — this will be in every submission</li>
+      <li>ChromaDB + RAG — standard approach, expected by judges</li>
+      <li>Prophet for forecasting — widely known, expected</li>
+      <li>Streamlit dashboard — ubiquitous in hackathons</li>
+    </ul>
+    <p style="font-size:12px;margin-top:0.4rem">Your differentiator must be in <em>execution quality</em>: the structured copilot output, the SHAP integration, and the graph-based scope determination. These are table-stakes ideas executed with unusual depth.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">What would impress ISRO judges specifically</span><span class="badge high">Context-specific</span></div>
+    <ul>
+      <li>A live demo where a fault is injected, the system predicts it 10-15 minutes ahead, and the copilot provides a correct, grounded, structured remediation — this is compelling regardless of technology choices</li>
+      <li>Demonstrating verifiable air-gap compliance (not just claiming it) — running the entire demo on a disconnected machine</li>
+      <li>Confidence score with calibration evidence — showing that when the system says "85% confident," it's actually right 85% of the time across your 4 validation scenarios</li>
+      <li>The SplitFed angle, if it works — defense/government judges will immediately see the relevance to distributed classified networks</li>
+    </ul>
+  </div>
+</div>
+
+<!-- PHASE 7 -->
+<div class="section" id="p7">
+  <h2>Phase 7 — Hackathon Feasibility</h2>
+
+  <div class="score-grid">
+    <div class="score-card"><div class="score-num" style="color:#1D9E75">✓ MVP</div><div class="score-label">Core 4 deliverables</div></div>
+    <div class="score-card"><div class="score-num" style="color:#BA7517">+ Nice</div><div class="score-label">Graph correlation + BFD</div></div>
+    <div class="score-card"><div class="score-num" style="color:#A32D2D">★ Stretch</div><div class="score-label">SplitFed only if time allows</div></div>
+  </div>
+
+  <div class="two-col">
+    <div class="card">
+      <div class="card-title" style="margin-bottom:0.5rem">MVP features (do these first)</div>
+      <ul>
+        <li>3-5 node Containerlab topology with BGP + OSPF + basic MPLS/LDP</li>
+        <li>Telegraf → CSV telemetry pipeline</li>
+        <li>Prophet (congestion forecast) + XGBoost (fault classifier) only</li>
+        <li>Ollama + Qwen3 8B with JSON structured output</li>
+        <li>ChromaDB RAG with pre-written runbooks for 4 scenarios</li>
+        <li>Streamlit dashboard with alert feed + copilot chat</li>
+        <li>All 4 validation scenarios working end-to-end</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title" style="margin-bottom:0.5rem">Nice-to-have (add if time allows)</div>
+      <ul>
+        <li>IsolationForest for unsupervised detection</li>
+        <li>NetworkX graph-based scope determination</li>
+        <li>NetFlow/IPFIX collection (softflowd)</li>
+        <li>Mock SD-WAN controller API</li>
+        <li>Air-gap verification script</li>
+        <li>SHAP → LLM context injection</li>
+        <li>Time-series prediction timeline visualization</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">What to cut if time is short</span><span class="badge high">Prioritization guidance</span></div>
+    <ul>
+      <li>SplitFed — high complexity, not in PS objectives, high failure risk. Cut unless core is fully working</li>
+      <li>LSTM models — Prophet trains in seconds; LSTM needs GPU and tuning time. Not worth it</li>
+      <li>Prometheus — go straight to Telegraf → CSV if time is short. Prometheus is for the dashboard, not ML</li>
+      <li>Full CE/PE/P hierarchy — a simplified hub-spoke with 3 nodes demonstrates all required scenarios</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">Pre-hackathon preparation (critical)</span><span class="badge critical">Do before the event</span></div>
+    <ul>
+      <li>Download Qwen3 8B (or Phi-4-mini as fallback) via Ollama on your demo machine</li>
+      <li>Download all-MiniLM-L6-v2 via sentence-transformers</li>
+      <li>Pull Containerlab Docker images (<code>ghcr.io/srl-labs/clab</code>) and FRR container images</li>
+      <li>Install all Python packages into a virtualenv and verify offline</li>
+      <li>Write and test your FRR MPLS/BGP/OSPF config offline</li>
+      <li>Pre-write all 5 runbooks for your RAG knowledge base</li>
+      <li>Pre-record a fallback demo video — if anything breaks, you have a safety net</li>
+    </ul>
+  </div>
+</div>
+
+<!-- PHASE 8 -->
+<div class="section" id="p8">
+  <h2>Phase 8 — Judge Perspective</h2>
+
+  <div class="score-grid">
+    <div class="score-card"><div class="score-num">8/10</div><div class="score-label">Problem understanding</div></div>
+    <div class="score-card"><div class="score-num">7/10</div><div class="score-label">Technical depth</div></div>
+    <div class="score-card"><div class="score-num">7/10</div><div class="score-label">Innovation</div></div>
+    <div class="score-card"><div class="score-num">6/10</div><div class="score-label">Feasibility (as-is)</div></div>
+    <div class="score-card"><div class="score-num">6/10</div><div class="score-label">Architecture completeness</div></div>
+    <div class="score-card"><div class="score-num">5/10</div><div class="score-label">Presentation readiness</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">What judges will look for — and what's currently missing</span></div>
+    <div class="two-col">
+      <div>
+        <div class="section-label">Technical Merit (35%)</div>
+        <ul><li>Will ask: "What is the lead time for each scenario?"</li><li>Will ask: "How did you validate the model?"</li><li>Will ask: "How does time-to-impact work mechanically?"</li><li>Currently answerable: prediction approach. Not answerable: lead time numbers, validation results</li></ul>
+      </div>
+      <div>
+        <div class="section-label">Copilot (35%)</div>
+        <ul><li>Will ask a live question to the copilot during demo</li><li>Will look for: structured output, no hallucination, grounded in local data</li><li>Will check: does the copilot response reference actual topology elements?</li><li>Currently: no prompt template, no output schema, high hallucination risk</li></ul>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="two-col">
+      <div>
+        <div class="section-label">Security (20%)</div>
+        <ul><li>Will ask: "How do you prove it's air-gapped?"</li><li>Will look for: no internet during demo, bundled model files</li><li>Currently: no verification mechanism defined</li></ul>
+      </div>
+      <div>
+        <div class="section-label">Documentation (10%)</div>
+        <ul><li>Will want: architecture diagram, data flow, design rationale</li><li>Will want: scenario results table with lead times</li><li>Currently: roadmap is thorough internally, but no final architecture doc planned</li></ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">Projected score with current roadmap (as-is)</span><span class="badge medium">Addressable</span></div>
+    <p style="font-size:12px">Technical Merit: ~25/35 (prediction approach is strong but time-to-impact implementation gap is risky)</p>
+    <p style="font-size:12px">Copilot: ~20/35 (RAG is in place but no structured output, no prompt engineering, hallucination risk)</p>
+    <p style="font-size:12px">Security: ~12/20 (stated but unverified)</p>
+    <p style="font-size:12px">Documentation: ~7/10 (roadmap is good but not a final architecture document)</p>
+    <p style="font-size:12px;margin-top:0.5rem"><strong>Projected: ~64/100</strong> — competitive but not a top-tier submission. The 3 critical fixes (structured LLM output, time-to-impact implementation, air-gap verification) alone could add ~15 points.</p>
+  </div>
+</div>
+
+<!-- PHASE 9 -->
+<div class="section" id="p9">
+  <h2>Phase 9 — Risk Analysis</h2>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">R1: FRR MPLS configuration complexity</span><span class="badge critical">Probability: High · Impact: High</span></div>
+    <p style="font-size:12px">Getting LDP-based MPLS forwarding working with BGP and OSPF in FRR containers is non-trivial. A misconfigured MTU or wrong LDP neighbor causes silent failures that are hard to debug.</p>
+    <div class="rec"><i class="ti ti-shield" aria-hidden="true"></i> Mitigation: Start with a minimal 2-node topology and get MPLS ping working before adding more nodes. Have a pre-tested config YAML ready before the hackathon. Fallback: drop MPLS, do pure BGP + OSPF if LDP fails — most of your monitoring still works.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">R2: LLM hallucination under pressure</span><span class="badge critical">Probability: High · Impact: High (35% score)</span></div>
+    <p style="font-size:12px">Without structured output enforcement and a carefully designed system prompt, the LLM will produce correct-sounding but wrong responses when judges ask unexpected questions live.</p>
+    <div class="rec"><i class="ti ti-shield" aria-hidden="true"></i> Mitigation: Use Ollama's JSON format mode. Pre-test 20+ questions across all 4 scenarios before submission. Define a system prompt that explicitly instructs the model to say "I don't have sufficient information" rather than hallucinate. Validate every response against the JSON schema.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">R3: Insufficient training data</span><span class="badge high">Probability: Medium · Impact: High</span></div>
+    <p style="font-size:12px">2 hours of fault injection may not produce a robust classifier. The model could overfit to specific fault injection patterns.</p>
+    <div class="rec"><i class="ti ti-shield" aria-hidden="true"></i> Mitigation: Run all 4 fault scenarios simultaneously across different interfaces. Use data augmentation (Gaussian noise). Rely on Prophet (which doesn't need classification labels) for your primary time-to-impact claim. Have a pre-generated synthetic dataset as backup.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">R4: Resource constraints on demo machine</span><span class="badge high">Probability: Medium · Impact: High</span></div>
+    <p style="font-size:12px">Running all components simultaneously (~14 GB RAM) on a laptop risks swapping, which will make the LLM response time unacceptably slow during demos.</p>
+    <div class="rec"><i class="ti ti-shield" aria-hidden="true"></i> Mitigation: Use Phi-4-mini (3.8B, ~2.5 GB) if RAM is tight. Pre-load the model before the demo presentation starts. Close all other applications. Consider splitting components across two machines if available.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">R5: Scenario 4 (controller misconfiguration) is harder than it looks</span><span class="badge high">Probability: High · Impact: Medium</span></div>
+    <p style="font-size:12px">Detecting QoS policy drift through traffic pattern anomalies requires that your traffic generator is marking QoS correctly AND that your monitoring captures DSCP values. This is significantly harder than the other 3 scenarios.</p>
+    <div class="rec"><i class="ti ti-shield" aria-hidden="true"></i> Mitigation: Simplify Scenario 4 — instead of QoS drift, demonstrate it as a route leak or policy change that causes unexpected traffic path (detectable via BGP-MIB and flow records). Or use a manual Isolation Forest alert on an anomalous traffic distribution pattern.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">R6: Windows development environment</span><span class="badge medium">Probability: Medium · Impact: Medium</span></div>
+    <p style="font-size:12px">The file paths in your roadmap suggest Windows. Containerlab requires Linux. WSL2 works but adds complexity, and performance for Docker networking in WSL2 can be unpredictable.</p>
+    <div class="rec"><i class="ti ti-shield" aria-hidden="true"></i> Mitigation: Do all Containerlab work on a Linux machine or a Linux VM. Use WSL2 only if a Linux machine is unavailable, and test it thoroughly before hackathon day.</div>
+  </div>
+</div>
+
+<!-- PHASE 10 -->
+<div class="section" id="p10">
+  <h2>Phase 10 — Missing Opportunities</h2>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">Opp 1: Structured LLM output with JSON schema enforcement</span><span class="badge critical">Critical · Low effort · Very high impact</span></div>
+    <p style="font-size:12px">This is the highest-ROI change you can make. The PS explicitly lists the required structured output fields. Using Ollama's <code>format: "json"</code> and a system prompt with a JSON schema template guarantees consistent, parseable, displayable copilot responses. Without this, the 35% copilot score is largely at the mercy of probabilistic generation.</p>
+    <div class="effort-bar"><div class="effort-fill e-low"></div></div>
+    <p style="font-size:11px;color:var(--text-muted);margin-top:4px">Implementation effort: Low (2-3 hrs) · Expected score impact: +8-12 points on copilot dimension</p>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">Opp 2: Air-gap verification script</span><span class="badge critical">Critical · Low effort · High impact</span></div>
+    <p style="font-size:12px">A small Python script that attempts to reach external IPs and DNS and shows "BLOCKED — all inference is local" on the dashboard. Run it live during the demo. This turns an unverifiable claim into a demonstrable feature and directly addresses the 20% security dimension.</p>
+    <div class="effort-bar"><div class="effort-fill e-low"></div></div>
+    <p style="font-size:11px;color:var(--text-muted);margin-top:4px">Implementation effort: Low (1 hr) · Expected score impact: +4-6 points on security dimension</p>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">Opp 3: Graph-based scope determination in copilot responses</span><span class="badge high">Required by Obj 4 · Medium effort · High impact</span></div>
+    <p style="font-size:12px">When the LLM says "affected scope: Branch-2 and Branch-3," it needs to be factually derived from topology traversal, not guessed. Build a simple NetworkX graph from your Containerlab topology YAML. On each alert, run a BFS/DFS from the affected device to find all downstream sites. Inject the result as: <em>"Devices on affected path: CE-Branch2, CE-Branch3. VPN services impacted: VRF-CORP, VRF-MGMT."</em></p>
+    <div class="effort-bar"><div class="effort-fill e-med"></div></div>
+    <p style="font-size:11px;color:var(--text-muted);margin-top:4px">Implementation effort: Medium (3-4 hrs) · Expected score impact: +5-8 points across technical + copilot dimensions</p>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">Opp 4: Pre-recorded fallback demo</span><span class="badge high">Insurance · Low effort · Essential</span></div>
+    <p style="font-size:12px">Record a clean 5-minute screen capture of your working system running all 4 validation scenarios. If anything breaks during the live demo, you have evidence to fall back on. Many hackathon submissions fail at the demo stage despite a working system — this is pure risk mitigation.</p>
+    <div class="effort-bar"><div class="effort-fill e-low"></div></div>
+    <p style="font-size:11px;color:var(--text-muted);margin-top:4px">Implementation effort: Low (1 hr) · Expected impact: Prevents catastrophic score loss</p>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">Opp 5: Confidence score calibration table in documentation</span><span class="badge medium">Documentation · Low effort · Medium impact</span></div>
+    <p style="font-size:12px">Run all 4 validation scenarios and create a results table: Scenario | Predicted lead time | Actual lead time | Confidence score | Correct? This is exactly what a real evaluation would look like and makes your documentation stand out. It shows you ran experiments, not just implemented features.</p>
+    <div class="effort-bar"><div class="effort-fill e-low"></div></div>
+    <p style="font-size:11px;color:var(--text-muted);margin-top:4px">Implementation effort: Low (2 hrs to produce and format) · Documentation score impact: +3-4 points</p>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">Opp 6: softflowd for NetFlow/IPFIX (required dataset)</span><span class="badge medium">PS requirement · Low effort</span></div>
+    <p style="font-size:12px">The PS explicitly lists NetFlow/IPFIX as a required data source. Add softflowd to your FRR container image (1 Dockerfile line), point it at a local nfdump collector, and parse flow summaries as features for your ML pipeline. Even just collecting the data (without using it in ML) shows you understood the requirements.</p>
+    <div class="effort-bar"><div class="effort-fill e-low"></div></div>
+    <p style="font-size:11px;color:var(--text-muted);margin-top:4px">Implementation effort: Low (2 hrs) · Impact: Satisfies explicit PS dataset requirement</p>
+  </div>
+</div>
+
+<script>
+function show(id, el) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  el.classList.add('active');
+}
+</script>

@@ -1,0 +1,89 @@
+name: ps13-mpls-wan
+
+topology:
+  nodes:
+    # ── CENTRAL HUB ──
+    CE-Hub:
+      kind: linux
+      image: frrouting/frr:latest
+      role: hub
+      vrfs:
+        - VRF-CORP
+        - VRF-VOICE
+        - VRF-MGMT
+      tunnels: []
+      binds:
+        - ./daemons:/etc/frr/daemons
+        - ./frr_ce_hub.conf:/etc/frr/frr.conf
+
+    PE-Hub:
+      kind: linux
+      image: frrouting/frr:latest
+      role: pe
+      vrfs:
+        - VRF-CORP
+        - VRF-VOICE
+        - VRF-MGMT
+      tunnels: []
+      binds:
+        - ./daemons:/etc/frr/daemons
+        - ./frr_pe_hub.conf:/etc/frr/frr.conf
+
+    # ── WAN CORE ──
+    P-1:
+      kind: linux
+      image: frrouting/frr:latest
+      role: p
+      vrfs: []
+      tunnels: []
+      binds:
+        - ./daemons:/etc/frr/daemons
+        - ./frr_p1.conf:/etc/frr/frr.conf
+
+    # ── SPOKE PE ──
+    PE-1:
+      kind: linux
+      image: frrouting/frr:latest
+      role: pe
+      vrfs:
+        - VRF-CORP
+        - VRF-VOICE
+      tunnels: []
+      binds:
+        - ./daemons:/etc/frr/daemons
+        - ./frr_pe1.conf:/etc/frr/frr.conf
+
+    # ── BRANCH SPOKE ──
+    CE-Branch1:
+      kind: linux
+      image: frrouting/frr:latest
+      role: branch
+      vrfs:
+        - VRF-CORP
+        - VRF-VOICE
+      tunnels:
+        - IPSec-Branch1-Hub
+      binds:
+        - ./daemons:/etc/frr/daemons
+        - ./frr_ce_branch1.conf:/etc/frr/frr.conf
+
+  links:
+    # Central Hub Access
+    - endpoints: ["CE-Hub:eth1", "PE-Hub:eth1"]
+      type: access
+      bandwidth: 10Gbps
+    
+    # Hub Core
+    - endpoints: ["PE-Hub:eth2", "P-1:eth1"]
+      type: core
+      bandwidth: 10Gbps
+
+    # Spoke Core
+    - endpoints: ["P-1:eth2", "PE-1:eth1"]
+      type: core
+      bandwidth: 1Gbps
+
+    # Branch Access
+    - endpoints: ["PE-1:eth2", "CE-Branch1:eth1"]
+      type: access
+      bandwidth: 1Gbps
